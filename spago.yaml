@@ -1,0 +1,24 @@
+
+package:
+  build:
+    censor_project_warnings:
+      - ImplicitQualifiedImportReExport
+      - HidingImport
+  name: went
+  dependencies:
+    - effect
+    - gojs
+    - heterogeneous
+    - nullable
+    - prelude
+    - typelevel-lists
+    - typelevel-prelude
+workspace:
+  build_opts:
+    censor_library_warnings:
+      all
+  package_set:
+    registry: 47.8.0
+  extra_packages:
+    gojs:
+      path: ../purescript-gojs
