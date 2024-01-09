@@ -1,7 +1,7 @@
-# Went: PureScript diagrams in GoJS
+# Went: GoJS diagrams in PureScript
 
 ## What is it?
-Went is a wrapper library over [`purescript-gojs`](link-to-purescript-gojs), a library containing bare bindings to [GoJS](link-to-gojs). It supports defining diagrams declaratively with a monadic DSL that looks similar to GoJS' `make` functionality.
+Went is a wrapper library over [`purescript-gojs`](https://github.com/AdaBeat/purescript-gojs), a library containing bare bindings to [GoJS](https://gojs.net/latest/index.html). It supports defining diagrams declaratively with a monadic DSL that looks similar to GoJS' `make` functionality.
 
 ## Why is it?
 The motivation for Went is twofold:
@@ -27,6 +27,7 @@ function textStyle() {
 }
 const $ = go.GraphObject.make;
 const myNode = $(go.Node, "Table", nodeStyle(),
+  {rowCount: 2},
   $(go.Panel, "Spot",
     $(go.Shape, "Circle",
       { desiredSize: new go.Size(70, 70), fill: "#282c34", stroke: "#09d3ac", strokeWidth: 3.5 }),
@@ -47,6 +48,7 @@ textStyle = set
   }
 myNode = node @Table' $ do
   nodeStyle
+  set {rowCount: 2}
   panel @Spot' $ do
     shape Circle $ do
       set { desiredSize: SizeBoth 70.0, fill: "#282c34", stroke: "#09d3ac", strokeWidth: 3.5 }
@@ -60,30 +62,28 @@ There's several things to notice:
 3. Plainly passing a record to `make` corresponds to calling the function `set` with that record as an argument.
 4. The arguments to the creation of `Binding` objects are now function calls; whereas the constructor `Binding()` in GoJS expects strings as its arguments, `Went`'s version expects *type-level* strings (denoted by the `@` symbol before the string). This allows us to only `bind` *actual properties* to *actual fields of a `Model`'s `nodeDataArray`'s elements*.
 
-Several more examples can be found in [this repo](link-to-purescript-went-example).
+Furthermore, because `myNode` has as its layout the [`Table` layout](https://gojs.net/latest/intro/tablePanels.html), it has access to certain fields like `rowCount :: Int`. `GraphObject`s in its visual tree can also have other fields, like `row :: Int`, which determines which row of a table the object should be rendered in. In regular GoJS, the fact that these fields only make sense in the context of a `Table` `Panel` and its children is not expressible; in Went, trying to set `rowCount` in a `Panel` of any other type results in a compilation error!
+
+Several more examples can be found in [this repo](https://github.com/AdaBeat/purescript-went-examples).
 
 ## Shortcomings
 1. Not everything can be declarative. GoJS diagrams can be customized extensively. One of the ways this is done is by passing functions as properties of certain objects, an example is `mouseEnter` of `GraphObject` objects. Because these fields are sent to the FFI, they must run in the plain `Effect` monad and therefore rely on `purescript-gojs` to perform their logic, where Went's interface and added type safety is not present, and the code is necessarily very imperative.
-2. Bundle sizes are currently quite large, especially when used with frameworks like Halogen. This is a [general problem in PureScript](link-to-bundle-sizes)
-3. Type errors, especially due to type inference, can be mysterious: when in doubt, try to give type annotations and use the PureScript compiler's built-in linting to generate them.
-4. Often when dealing with `purescript-gojs`-related code, types MUST be given explicitly, usually when a function is polymorphic in its output type. This is somewhat solved by existential types (see the WIP section) but not completely.
+2. Bundle sizes are currently quite large, especially when used with frameworks like Halogen. This is a [general problem in PureScript](https://www.reddit.com/r/purescript/comments/ltm38p/how_do_you_deal_with_the_giant_bundle_sizes_from/).
+3. Type errors, especially due to type inference, can be mysterious: when in doubt, try to give type annotations and use the PureScript compiler's built-in linting to generate them. For example, often when dealing with `purescript-gojs`-related code, types MUST be given explicitly, usually when a function is polymorphic in its output type. This is a consequence of GoJS's heavily objected-oriented design. Went and `purescript-gojs` code "wants" to be monomorphic in order to be compatible with this.
 
 
 ## WIP:
 *This library is in an experimental phase*. We're still ironing out several of its details and filling them in.
 
-- "Monadic" fields setting - for example, creating a GraphObject or an Adornment for a Shape or a Part (examples: pathPattern and selectionAdornmentTemplate) is not supported yet; only "plain" fields (numbers, booleans, sum types etc). This can already go quite a long way however.
+- "Monadic" fields setting - for example, creating a `GraphObject` or an `Adornment` for a `Shape` or a `Part` (examples: `pathPattern` and `selectionAdornmentTemplate`) is not supported yet; only "plain" fields (numbers, booleans, sum types etc). This can already go quite a long way however.
 - Inheriting from classes can be modeled via modifying the behavior of its methods with the `Override` construct, but if an intended subclass has extra fields for example, then it will need its own `Settable` instance and possibly `IsPanel`, `IsNode` etc. GoJS only contains examples of extending Tools, Layouts and Links, but in principle any class can be inherited from since Typescript is object-oriented - our aim (at least with this release) is to support the most common use cases.
 - Several fields/methods from Diagram (and therefore Overview and Palette) are not yet supported; in particular, Diagram's `attach` method (whose argument can also be given as an argument to the constructor) supports many type-checked deeply nested properties.
-- Some fields use existential types to address the fact that many GoJS functions return heterogeneous data structures - for example, an array of type `Node[]` can contain both `Node`s and `Group`s. This is a common conflict between pure FP and OO approaches; one might want a collection of different types that have one thing in common: they implement a certain interface. This is sometimes an [antipattern](link-to-existential-antipattern), and deserves looking at.
 - Several fields are not polymorphic enough; i.e. they do not use the existential approach delineated above.
-- There's a lot of documentation missing (prototypes, overrides, the different `Make*` monads), but hopefully the extensive [GoJS docs](link-to-gojs-docs) can fill in a lot of the missing pieces.
+- There's a lot of documentation missing (prototypes, overrides, the different `Make*` monads), but hopefully the extensive [GoJS docs](https://gojs.net/latest/api/) can fill in a lot of the missing pieces.
 
 
 Not supported:
-1. Defining panel layouts
+1. Defining custom panel layouts
 2. Extending Links, LayoutNetworks
 3. Nested records in Settable instances must be filled out totally
 4. Diagram's settable instance is not type safe, it accepts anything due to us wanting to nest sets very deeply sometimes
-
-5.  boundsComputation in Layout and other fields use existential types, others use concrete types. Need to decide
