@@ -7,9 +7,10 @@ import Effect (Effect)
 import Effect.Class (liftEffect)
 import Effect.Exception.Unsafe (unsafeThrow)
 import GoJS.Diagram.Constructors (newDiagram)
+import GoJS.Diagram.Palette.Constructors (newPalette)
 import GoJS.Diagram.Methods (addDiagramListener_, addGroupTemplate_, addLinkTemplate_, addNodeTemplate_, add_, attach_)
-import GoJS.Diagram.Types (class IsDiagram, DiagramEvent_, Diagram_)
-import GoJS.GraphObject.Shape.Methods (defineFigureGenerator_)
+import GoJS.Diagram.Types (class IsDiagram, DiagramEvent_, Diagram_, Palette_)
+import GoJS.GraphObject.Shape.Static (defineFigureGenerator_)
 import GoJS.GraphObject.Types (class IsPanel, class IsPart, Link_, Shape_)
 import Heterogeneous.Mapping (class HMap, hmap)
 import Prim.Row (class Union)
@@ -158,4 +159,9 @@ defineFigureGenerator name geometryMaker = MakeDiagram $ do
 make :: forall nodeData linkData. String -> MakeDiagram nodeData linkData Diagram_ Unit -> Effect Unit
 make div (MakeDiagram m) = do
   diag <- newDiagram div
+  runReaderT m diag
+
+makePalette :: forall nodeData linkData. String -> MakeDiagram nodeData linkData Palette_ Unit -> Effect Unit
+makePalette div (MakeDiagram m) = do
+  diag <- newPalette div
   runReaderT m diag

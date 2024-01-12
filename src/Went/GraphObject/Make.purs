@@ -10,7 +10,7 @@ import GoJS.GraphObject.Constructors (newButton, newContextMenu, newGroup, newLi
 import GoJS.GraphObject.Methods (bind_)
 import GoJS.GraphObject.Panel.Methods (add_)
 import GoJS.GraphObject.Types (class IsGraphObject, class IsPanel, Adornment_, Button_, Group_, Link_, Node_, Panel_, Part_, Picture_, Placeholder_, Shape_, TextBlock_)
-import GoJS.Settable (setUnsafe)
+import GoJS.Unsafe.Set (setUnsafe)
 import Prim.Row (class Cons, class Union)
 import Record (insert)
 import Type.Data.List (type (:>), List', Nil')

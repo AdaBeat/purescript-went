@@ -2,6 +2,7 @@ module Went.GraphObject.Panel where
 
 import GoJS.GraphObject.Types
 
+import Unsafe.Coerce (unsafeCoerce)
 import Went.Geometry.Margin (Margin)
 import Went.Geometry.Point (Point)
 import Went.Geometry.Size (Size)
@@ -13,6 +14,46 @@ import Went.GraphObject.EnumValue.ViewboxStretch (ViewboxStretch)
 import Went.GraphObject.Shape.Arrowhead (Arrowhead)
 import Went.GraphObject.Shape.Figure (Figure)
 import Went.RowColumnDefinition.EnumValue.Sizing (Sizing)
+
+{- 
+alignmentFocusName - Only for Spot
+columnCount - Read-only
+columnSizing - Only for Table
+data - Read-only, in a way
+defaultAlignment - 
+defaultColumnSeparatorDashArray - Only for Table
+defaultColumnSeparatorStroke - Only for Table
+defaultColumnSeparatorStrokeWidth - Only for Table
+defaultRowSeparatorDashArray - Only for Table
+defaultRowSeparatorStroke - Only for Table
+defaultRowSeparatorStrokeWidth - Only for Table
+defaultSeparatorPadding - Only for Table
+defaultStretch - 
+elements - Read-only
+graduatedMax - Only for Graduated
+graduatedMin - Only for Graduated
+graduatedRange - Read-only
+graduatedTickBase - Only for Graduated
+graduatedTickUnit - Only for Graduated
+gridCellSize - Only for Grid
+gridOrigin - Only for Grid
+isClipping - Only for Spot
+isEnabled - 
+isOpposite - Only for Horizontal, Vertical
+itemArray - 
+itemCategoryProperty - 
+itemIndex - 
+itemTemplate - 
+itemTemplateMap - 
+leftIndex - Only for Table
+padding - 
+rowCount - Read-only
+rowSizing - Only for Table
+topIndex - Only for Table
+type - Read-only
+viewboxStretch - Only for ViewBox
+-}
+
 
 type PanelSpecificFields :: Row Type -> Row Type
 type PanelSpecificFields r =
@@ -32,14 +73,16 @@ unPanelTypeTag :: forall panelType panel. PanelTypeTag panelType panel -> panel
 unPanelTypeTag (PanelTypeTag panel) = panel
 
 instance IsGraphObject (PanelTypeTag p pa)
-instance IsPanel (PanelTypeTag p pa)
+instance IsPanel (PanelTypeTag p pa) where
+  fromPanel = unsafeCoerce
 
 newtype ButtonTypeTag (buttonType :: ButtonType) (panelType :: PanelType) button = ButtonTypeTag button
 unButtonTypeTag :: forall buttonType panelType button. ButtonTypeTag buttonType panelType button -> button
 unButtonTypeTag (ButtonTypeTag button) = button
 
 instance IsGraphObject (ButtonTypeTag b p bpa)
-instance IsPanel (ButtonTypeTag b p bpa)
+instance IsPanel (ButtonTypeTag b p bpa) where
+  fromPanel = unsafeCoerce
 
 -- | Helper class to convert "singleton" types to strings
 class AsString :: forall k. k -> Constraint
@@ -132,7 +175,6 @@ instance
     , defaultRowSeparatorStrokeWidth :: Number
     , defaultSeparatorPadding :: Margin
     , leftIndex :: Int
-    , rowCount :: Int
     , rowSizing :: Sizing
     , topIndex :: Int
     )
@@ -169,7 +211,6 @@ instance
     Graduated'
     ( graduatedMax :: Number
     , graduatedMin :: Number
-    , graduatedRange :: Number
     , graduatedTickBase :: Number
     , graduatedTickUnit :: Number
     )
@@ -272,8 +313,17 @@ else instance
     , isPanelMain :: Boolean
     )
 else instance
+  ExtraFieldsChild (tag Grid' panel) TextBlock_
+    ( interval :: Number
+    )
+else instance
   ExtraFieldsChild (tag Graduated' panel) anychild
     ( segmentOrientation :: SegmentOrientation
+    , isPanelMain :: Boolean
+    )
+else instance (IsPart panel) =>
+  ExtraFieldsChild (tag panelType panel) anychild
+    ( shadowVisible :: Boolean
     , isPanelMain :: Boolean
     )
 else instance

@@ -5,29 +5,83 @@ import Prelude
 import Effect (Effect)
 import GoJS.Diagram.Types (Layer_)
 import GoJS.Geometry.Types (Point_)
-import GoJS.GraphObject.Types (Part_, SomeNode_, SomePart_)
+import GoJS.GraphObject.Types (Part_, Node_)
 import Went.Geometry.Point (Point)
 import Went.Geometry.Size (Size)
 import Went.Geometry.Spot (Spot)
 import Went.GraphObject (GraphObjectSpecificFields)
 import Went.GraphObject.Panel (PanelSpecificFields)
 
+{-
+adornments - Read-only
+category - 
+containingGroup - Ignored, containingGroup should be defined in Model
+containingGroupChanged - 
+copyable - 
+deletable - 
+diagram - Read-only
+dragComputation - 
+groupable - 
+highlightedChanged
+isAnimated
+isHighlighted
+isInDocumentBounds
+isLayoutPositioned
+isSelected
+isShadowed
+isTopLevel - Read-only
+key - Read-only
+layer - Read-only
+layerChanged
+layerName
+layoutConditions
+location
+locationObject - Read-only
+locationObjectName
+locationSpot
+maxLocation
+minLocation
+movable
+reshapable
+resizable
+resizeAdornmentTemplate - Monadic
+resizeCellSize
+resizeObject - Read-only
+resizeObjectName
+rotatable
+rotateAdornmentTemplate
+rotateObject
+rotateObjectName
+rotationSpot
+selectable
+selectionAdorned
+selectionAdornmentTemplate - Monadic
+selectionChanged
+selectionObject - Read-only
+selectionObjectName
+shadowBlur
+shadowColor
+shadowOffset
+text
+textEditable
+zOrder
+-}
 
-type PartSpecificFields (a :: Row Type) =
+type PartSpecificFields (this :: Type) (a :: Row Type) =
   ( category :: String
-  , containingGroupChanged :: SomePart_ -> SomeNode_ -> SomeNode_ -> Effect Unit
+  , containingGroupChanged :: this -> Node_ -> Node_ -> Effect Unit
   , copyable :: Boolean
   , deletable :: Boolean
-  , dragComputation :: SomePart_ -> Point_ -> Point_ -> Point_
+  , dragComputation :: this -> Point_ -> Point_ -> Point_
   , groupable :: Boolean
-  , highlightChanged :: SomePart_ -> Effect Unit
+  , highlightChanged :: this -> Effect Unit
   , isAnimated :: Boolean
   , isHighlighted :: Boolean
   , isInDocumentBounds :: Boolean
   , isLayoutPositioned :: Boolean
   , isSelected :: Boolean
   , isShadowed :: Boolean
-  , layerChanged :: SomePart_ -> Layer_ -> Layer_ -> Effect Unit
+  , layerChanged :: this -> Layer_ -> Layer_ -> Effect Unit
   , layerName :: String
   , layerConditions :: Boolean
   , location :: Point
@@ -45,7 +99,7 @@ type PartSpecificFields (a :: Row Type) =
   , rotationSpot :: Spot
   , selectable :: Boolean
   , selectionAdorned :: Boolean
-  , selectionChanged :: SomePart_ -> Effect Unit
+  , selectionChanged :: this -> Effect Unit
   , selectionObjectName :: String
   , shadowBlur :: Number
   , shadowColor :: String
@@ -56,8 +110,8 @@ type PartSpecificFields (a :: Row Type) =
   | a
   )
 
-type PartFields (extraFields :: Row Type) = GraphObjectSpecificFields Part_
+type PartFields (this :: Type) (extraFields :: Row Type) = GraphObjectSpecificFields Part_
   ( PanelSpecificFields
-      ( PartSpecificFields extraFields
+      ( PartSpecificFields this extraFields
       )
   )

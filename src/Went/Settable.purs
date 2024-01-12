@@ -5,7 +5,7 @@ import Prelude
 import Control.Monad.Reader (ReaderT, ask)
 import Effect (Effect)
 import Effect.Class (liftEffect)
-import GoJS.Settable (setUnsafe)
+import GoJS.Unsafe.Set (setUnsafe)
 import Heterogeneous.Mapping (class HMap, hmap)
 import Prim.Row (class Union)
 import Went.FFI.Class (CreateFFIRecord(..))

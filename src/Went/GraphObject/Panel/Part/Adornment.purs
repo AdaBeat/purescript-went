@@ -14,7 +14,7 @@ type AdornmentSpecificFields (a :: Row Type) =
 type AdornmentFields (extraFields :: Row Type) =
   GraphObjectSpecificFields Adornment_
     ( PanelSpecificFields
-        ( PartSpecificFields
+        ( PartSpecificFields Adornment_
             ( AdornmentSpecificFields extraFields
             )
         )

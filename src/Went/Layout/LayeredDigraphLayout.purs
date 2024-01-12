@@ -64,16 +64,16 @@ instance Semigroup AlignOption where
 derive instance Newtype AlignOption _
 
 type LayeredDigraphSpecificFields =
-  ( nodeMinColumnSpace :: Override LayeredDigraphLayout_ (LayeredDigraphVertex_ -> Boolean -> Effect Number)
-  , nodeMinLayerSpace :: Override LayeredDigraphLayout_ (LayeredDigraphVertex_ -> Boolean -> Effect Number)
-  , assignLayers :: Override LayeredDigraphLayout_ (Effect Unit)
-  , alignOption :: AlignOption
+  ( alignOption :: AlignOption
   , setsPortSpots :: Boolean
   , direction :: Number
   , layeringOption :: LayeringOption
   , packOption :: PackOption
   , layerSpacing :: Number
   , columnSpacing :: Number
+  , nodeMinColumnSpace :: Override LayeredDigraphLayout_ (LayeredDigraphVertex_ -> Boolean -> Effect Number)
+  , nodeMinLayerSpace :: Override LayeredDigraphLayout_ (LayeredDigraphVertex_ -> Boolean -> Effect Number)
+  , assignLayers :: Override LayeredDigraphLayout_ (Effect Unit)
   )
 
 type LayeredDigraphFields = LayoutSpecificFields LayeredDigraphLayout_ LayeredDigraphNetwork_ LayeredDigraphSpecificFields

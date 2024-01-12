@@ -3,34 +3,53 @@ module Went.GraphObject.Panel.Part.Node where
 import Prelude
 
 import Effect (Effect)
-import GoJS.GraphObject.Types (Link_, Node_, SomeGraphObject_, SomeNode_)
+import GoJS.GraphObject.Types (Link_, Node_, GraphObject_)
 import Went.Geometry.Margin (Margin)
 import Went.GraphObject (GraphObjectSpecificFields)
 import Went.GraphObject.EnumValue.PortSpreading (PortSpreading)
 import Went.GraphObject.Panel (PanelSpecificFields)
 import Went.GraphObject.Panel.Part (PartSpecificFields)
 
-type NodeSpecificFields (a :: Row Type) =
+
+{-
+avoidable
+avoidableMargin
+isLinkLabel - Read-only
+isTreeExpanded 
+isTreeLeaf
+labeledLink - Read-only, in a way
+linkConnected 
+linkDisconnected
+linkValidation
+linksConnected - Read-only
+port - Read-only
+portSpreading
+ports - Read-only
+treeExpandedChanged
+wasTreeExpanded
+-}
+
+type NodeSpecificFields (this :: Type) (a :: Row Type) =
   ( avoidable :: Boolean
   , avoidableMargin :: Margin
   , isTreeExpanded :: Boolean
   , isTreeLeaf :: Boolean
-  , linkConnected :: SomeNode_ -> Link_ -> SomeGraphObject_ -> Effect Unit
-  , linkDisconnected :: SomeNode_ -> Link_ -> SomeGraphObject_ -> Effect Unit
-  , linkValidation :: SomeNode_ -> SomeGraphObject_ -> SomeNode_ -> SomeGraphObject_ -> Link_ -> Effect Boolean
+  , linkConnected :: this -> Link_ -> GraphObject_ -> Effect Unit
+  , linkDisconnected :: this -> Link_ -> GraphObject_ -> Effect Unit
+  , linkValidation :: this -> GraphObject_ -> Node_ -> GraphObject_ -> Link_ -> Effect Boolean
   , portSpreading :: PortSpreading
-  , treeExpandedChanged :: SomeNode_ -> Effect Unit
+  , treeExpandedChanged :: this -> Effect Unit
   , wasTreeExpanded :: Boolean
   | a
   )
 
 -- labeledLink, linksConnected
 
-type NodeFields (extraFields :: Row Type) =
+type NodeFields (this :: Type) (extraFields :: Row Type) =
   GraphObjectSpecificFields Node_
     ( PanelSpecificFields
-        ( PartSpecificFields
-            ( NodeSpecificFields extraFields
+        ( PartSpecificFields this
+            ( NodeSpecificFields this extraFields
             )
         )
     )

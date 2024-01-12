@@ -748,12 +748,17 @@ packages:
       type: local
       path: ../purescript-gojs
       dependencies:
-        - console
+        - effect
+        - foldable-traversable
+        - functions
         - lists
+        - maybe
         - nullable
         - prelude
         - typelevel-prelude
+        - unsafe-coerce
         - variant
+        - web-events
         - web-html
   heterogeneous:
     needed_by:

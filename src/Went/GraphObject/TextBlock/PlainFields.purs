@@ -14,35 +14,61 @@ import Went.GraphObject.EnumValue.Overflow (Overflow)
 import Went.GraphObject.EnumValue.Wrap (Wrap)
 import Went.GraphObject.TextBlock.TextAlign (TextAlign)
 
+{-
+choices
+editable
+errorFunction
+flip
+font
+formatting
+graduatedEnd -- Only when in Graduated Panel
+graduatedFunction -- Only when in Graduated Panel
+graduatedSkip -- Only when in Graduated Panel
+graduatedStart -- Only when in Graduated Panel
+interval -- Only when in Grid or Graduated Panel
+isMultiline
+isOverflowed -- Read-only
+isStrikethrough
+isUnderline
+lineCount -- Read-only
+lineHeight -- Read-only
+maxLines
+naturalBounds -- Read-only
+overflow
+spacingAbove
+spacingBelow
+stroke
+text
+textAlign
+textEdited
+textEditor -- Monadic
+textValidation
+verticalAlignment
+wrap
+-}
+
 type TextBlockSpecificFields =
   ( choices :: Array String
   , editable :: Boolean
   , errorFunction :: TextEditingTool_ -> String -> String -> Effect Unit
   , flip :: Flip
-  , formatting :: Formatting
   , font :: String
+  , formatting :: Formatting
   , isMultiline :: Boolean
   , isStrikethrough :: Boolean
   , isUnderline :: Boolean
+  , margin :: Margin
   , maxLines :: Int
   , overflow :: Overflow
-  , margin :: Margin
   , spacingAbove :: Number
   , spacingBelow :: Number
   , stroke :: String
   , text :: String
   , textAlign :: TextAlign
   , textEdited :: TextBlock_ -> String -> String -> Effect Unit
-  -- TODO: textEditor
   , textValidation :: TextBlock_ -> String -> String -> Boolean
   , verticalAlignment :: Spot
   , wrap :: Wrap
-  -- Fields that only make sense when this TextBlock is in a Graduated panel.
-  -- graduatedEnd :: Number
-  -- graduatedFunction :: Number -> TextBlock_ -> String
-  -- graduatedSkip :: Number -> TextBlock_ -> Boolean
-  -- graduatedStart :: Number
-  -- interval :: Number
   )
 
 type TextBlockFields = GraphObjectSpecificFields TextBlock_ TextBlockSpecificFields

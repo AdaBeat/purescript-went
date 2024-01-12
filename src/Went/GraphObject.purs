@@ -4,7 +4,7 @@ import Prelude
 
 import Effect (Effect)
 import GoJS.Diagram.Types (Diagram_, InputEvent_)
-import GoJS.GraphObject.Types (SomeGraphObject_)
+import GoJS.GraphObject.Types (GraphObject_)
 import Went.Geometry.Margin (Margin)
 import Went.Geometry.Point (Point)
 import Went.Geometry.Size (Size)
@@ -12,7 +12,11 @@ import Went.Geometry.Spot (Spot)
 import Went.GraphObject.EnumValue.Stretch (Stretch)
 
 type GraphObjectSpecificFields (this :: Type) (r :: Row Type) =
-  ( alignment :: Spot
+  ( actionCancel :: InputEvent_ Diagram_ -> this -> Effect Unit
+  , actionDown :: InputEvent_ Diagram_ -> this -> Effect Unit
+  , actionMove :: InputEvent_ Diagram_ -> this -> Effect Unit
+  , actionUp :: InputEvent_ Diagram_ -> this -> Effect Unit
+  , alignment :: Spot
   , alignmentFocus :: Spot
   , angle :: Number
   , background :: String
@@ -34,13 +38,13 @@ type GraphObjectSpecificFields (this :: Type) (r :: Row Type) =
   , margin :: Margin
   , maxSize :: Size
   , minSize :: Size
-  , mouseDragEnter :: InputEvent_ Diagram_ -> this -> SomeGraphObject_ -> Effect Unit
-  , mouseDragLeave :: InputEvent_ Diagram_ -> this -> SomeGraphObject_ -> Effect Unit
+  , mouseDragEnter :: InputEvent_ Diagram_ -> this -> GraphObject_ -> Effect Unit
+  , mouseDragLeave :: InputEvent_ Diagram_ -> this -> GraphObject_ -> Effect Unit
   , mouseDrop :: InputEvent_ Diagram_ -> this -> Effect Unit
-  , mouseEnter :: InputEvent_ Diagram_ -> this -> SomeGraphObject_ -> Effect Unit
+  , mouseEnter :: InputEvent_ Diagram_ -> this -> GraphObject_ -> Effect Unit
   , mouseHold :: InputEvent_ Diagram_ -> this -> Effect Unit
   , mouseHover :: InputEvent_ Diagram_ -> this -> Effect Unit
-  , mouseLeave :: InputEvent_ Diagram_ -> this -> SomeGraphObject_ -> Effect Unit
+  , mouseLeave :: InputEvent_ Diagram_ -> this -> GraphObject_ -> Effect Unit
   , mouseOver :: InputEvent_ Diagram_ -> this -> Effect Unit
   , name :: String
   , opacity :: Number
@@ -48,7 +52,6 @@ type GraphObjectSpecificFields (this :: Type) (r :: Row Type) =
   , portId :: String
   , position :: Point
   , scale :: Number
-  , shadowVisible :: Boolean
   , stretch :: Stretch
   , toEndSegmentLength :: Number
   , toLinkable :: Boolean
@@ -75,5 +78,7 @@ type GraphObjectSpecificFields (this :: Type) (r :: Row Type) =
   -- , segmentOrientation :: SegmentOrientation
   -- Only makes sense when child of some panels.
   -- , isPanelMain :: Boolean
+  -- , shadowVisible :: Boolean
+
   | r
   )

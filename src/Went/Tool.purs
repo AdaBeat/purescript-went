@@ -5,7 +5,7 @@ import Prelude
 import Effect (Effect)
 import GoJS.Diagram.Types (Diagram_, InputEvent_)
 import GoJS.Geometry.Types (Point_)
-import GoJS.GraphObject.Types (SomeGraphObject_, SomePart_)
+import GoJS.GraphObject.Types (GraphObject_, Part_)
 import Went.FFI.Override (Override)
 
 type ToolSpecificFields (this :: Type) (r :: Row Type) =
@@ -29,7 +29,7 @@ type ToolSpecificFields (this :: Type) (r :: Row Type) =
   , doStart :: Override this (Effect Unit)
   , doStop :: Override this (Effect Unit)
   , doWaitAfter :: Override this (InputEvent_ Diagram_ -> Effect Unit)
-  , findToolHandleAt :: Override this (Point_ -> String -> Effect SomeGraphObject_)
+  , findToolHandleAt :: Override this (Point_ -> String -> Effect GraphObject_)
   , isBeyondDragSize :: Override this (Point_ -> Point_ -> Effect Boolean)
   -- TODO: Figure out type of standardMouseClick
   -- , standardMouseClick
@@ -42,6 +42,6 @@ type ToolSpecificFields (this :: Type) (r :: Row Type) =
   , startTransaction :: Override this (String -> Effect Boolean)
   , stopTool :: Override this (Effect Unit)
   , stopTransaction :: Override this (Effect Boolean)
-  , updateAdornments :: Override this (SomePart_ -> Effect Unit)
+  , updateAdornments :: Override this (Part_ -> Effect Unit)
   | r
   )

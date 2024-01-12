@@ -25,12 +25,12 @@ instance
 instance
   ( ExtraFieldsPanel panelType extra
   ) =>
-  GraphObjectFields (PanelTypeTag panelType Part_) (PartFields extra)
+  GraphObjectFields (PanelTypeTag panelType Part_) (PartFields Part_ extra)
 
 instance
   ( ExtraFieldsPanel panelType extra
   ) =>
-  GraphObjectFields (PanelTypeTag panelType Node_) (NodeFields extra)
+  GraphObjectFields (PanelTypeTag panelType Node_) (NodeFields Node_ extra)
 
 instance
   ( ExtraFieldsPanel panelType extra

@@ -2,7 +2,7 @@ module Went.FFI.Class where
 
 import Prelude
 
-import Data.Function.Uncurried (Fn0, Fn1, Fn2, Fn3, mkFn3)
+import Data.Function.Uncurried (Fn0, Fn1, Fn2, Fn3, mkFn1, mkFn2, mkFn3)
 import Data.Int (toNumber)
 import Data.Maybe (Maybe)
 import Data.Newtype (unwrap)
@@ -18,7 +18,9 @@ import GoJS.Geometry.Rect.Constructors (newRect)
 import GoJS.Geometry.Size.Constructors (newSize)
 import GoJS.Geometry.Spot (bottomLeftSides_, bottomRightSides_, bottomSide_, leftRightSides_, leftSide_, newSpot, rightSide_, topBottomSides_, topLeftSides_, topRightSides_, topSide_)
 import GoJS.Geometry.Types (Geometry_, Margin_, PathFigure_, PathSegment_, Point_, Rect_, Size_, Spot_)
+import GoJS.Key (Key(..), KeyProperty(..))
 import Heterogeneous.Mapping (class HMap, class Mapping, hmap)
+import Unsafe.Coerce (unsafeCoerce)
 import Went.EnumValue (class EnumValueFFI, enumValue)
 import Went.FFI.Function (call0, call1, call2)
 import Went.FFI.Override (Override(..), override0, override1, override2)
@@ -117,6 +119,12 @@ else instance FFIMap (Effect c) (Fn0 c) where
 else instance (FFIMap d e) => FFIMap (a -> b -> c -> d) (Fn3 a b c e) where
   ffi f = mkFn3 $ \a b c -> ffi $ f a b c
 
+else instance (FFIMap c d) => FFIMap (a -> b -> c) (Fn2 a b d) where
+  ffi f = mkFn2 $ \a b -> ffi $ f a b
+
+else instance (FFIMap b c) => FFIMap (a -> b) (Fn1 a c) where
+  ffi f = mkFn1 $ \a -> ffi $ f a
+
 -- Overridden methods become functions taking one less argument (at call sites, the first argument corresponds to `this`)
 else instance FFIMap (Override a (b -> c -> Effect d)) (Fn2 b c d) where
   ffi (Override f) = override2 f
@@ -151,6 +159,19 @@ else instance FFIMap Arrowhead String where
   ffi = show
 else instance FFIMap TextAlign String where
   ffi = show
+
+-- It's as if Keys can be mapped to "anything"
+else instance FFIMap Key a where
+  ffi k = case k of
+    StringKey s -> unsafeCoerce s
+    NumberKey n -> unsafeCoerce n
+    UndefinedKey -> unsafeCoerce k -- we need a js undefined
+    
+else instance FFIMap k a => FFIMap (KeyProperty nodeData k) a where
+  ffi = case _ of
+    Property s -> unsafeCoerce s
+    FunctionProperty f -> unsafeCoerce $ mkFn2 $ \a b -> ffi $ f a b -- create a new fn that ffis the output of f, package that into Fn2, then coerce it
+
 -- Record FFI recurses, since hmap is implemented with ffi (see below)
 else instance HMap CreateFFIRecord (Record r1) (Record r2) => FFIMap (Record r1) (Record r2) where
   ffi = hmap CreateFFIRecord

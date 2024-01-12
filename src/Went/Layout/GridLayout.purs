@@ -2,7 +2,7 @@ module Went.Layout.GridLayout where
 
 import Prelude
 
-import GoJS.GraphObject.Types (SomePart_)
+import GoJS.GraphObject.Types (Part_)
 import GoJS.Layout.Types (GridLayout_)
 import Went.Geometry.Size (Size)
 import Went.Layout (LayoutSpecificFields)
@@ -14,7 +14,7 @@ type GridSpecificFields =
   ( alignment :: Alignment
   , arrangement :: Arrangement
   , cellSize :: Size
-  , comparer :: SomePart_ -> SomePart_ -> Number
+  , comparer :: Part_ -> Part_ -> Number
   , sorting :: Sorting
   , spacing :: Size
   , wrappingColumn :: Int

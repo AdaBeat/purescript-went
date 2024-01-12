@@ -8,6 +8,7 @@ type ForceDirectedSpecificFields =
   ( arrangementSpacing :: Size
   , arrangesToOrigin :: Boolean
   , comments :: Boolean
+  , defaultCommentElectricalCharge :: Number
   , defaultCommentSpringLength :: Number
   , defaultElectricalCharge :: Number
   , defaultGravitationalMass :: Number
