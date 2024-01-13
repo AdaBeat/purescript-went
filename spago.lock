@@ -14,8 +14,8 @@ workspace:
       test_dependencies: []
   package_set:
     address:
-      registry: 47.8.0
-    compiler: ">=0.15.13 <0.16.0"
+      registry: 47.13.0
+    compiler: ">=0.15.14 <0.16.0"
     content:
       abc-parser: 2.0.1
       ace: 9.1.0
@@ -130,6 +130,7 @@ workspace:
       fetch-argonaut: 1.0.1
       fetch-core: 5.1.0
       fetch-yoga-json: 1.1.0
+      fft-js: 0.1.0
       filterable: 5.0.0
       fix-functor: 0.1.0
       fixed-points: 7.0.0
@@ -159,6 +160,7 @@ workspace:
       generic-router: 0.0.1
       geojson: 0.0.5
       geometry-plane: 1.0.3
+      gojs: 0.1.0
       grain: 3.0.0
       grain-router: 3.0.0
       grain-virtualized: 3.0.0
@@ -343,7 +345,7 @@ workspace:
       react-basic-storybook: 2.0.0
       react-dom: 8.0.0
       react-halo: 3.0.0
-      react-icons: 1.1.2
+      react-icons: 1.1.4
       react-markdown: 0.1.0
       react-testing-library: 4.0.1
       react-virtuoso: 1.0.0
@@ -351,6 +353,7 @@ workspace:
       recharts: 1.1.0
       record: 4.0.0
       record-extra: 5.0.1
+      record-ptional-fields: 0.1.2
       record-studio: 1.0.4
       refs: 6.0.0
       remotedata: 5.0.0
@@ -382,7 +385,7 @@ workspace:
       sparse-matrices: 1.3.0
       sparse-polynomials: 2.0.5
       spec: 7.5.5
-      spec-mocha: 5.0.0
+      spec-mocha: 5.1.0
       spec-quickcheck: 5.0.0
       splitmix: 2.1.0
       ssrs: 1.0.0
@@ -477,9 +480,8 @@ workspace:
       yoga-postgres: 6.0.0
       yoga-tree: 1.0.0
       z3: 0.0.2
-  extra_packages:
-    gojs:
-      path: ../purescript-gojs
+      zipperarray: 2.0.0
+  extra_packages: {}
 packages:
   arrays:
     needed_by:
@@ -745,8 +747,9 @@ packages:
     needed_by:
       - went
     package:
-      type: local
-      path: ../purescript-gojs
+      type: registry
+      version: 0.1.0
+      integrity: sha256-kFv9O6veWwy6c9DiiYUFWVNYWZ/ujhSoc3gaf5/H+LU=
       dependencies:
         - effect
         - foldable-traversable

@@ -321,10 +321,10 @@ else instance
     ( segmentOrientation :: SegmentOrientation
     , isPanelMain :: Boolean
     )
-else instance (IsPart panel) =>
-  ExtraFieldsChild (tag panelType panel) anychild
-    ( shadowVisible :: Boolean
-    , isPanelMain :: Boolean
-    )
+-- else instance (IsPart panel) =>
+--   ExtraFieldsChild (tag panelType panel) anychild
+--     ( shadowVisible :: Boolean
+--     , isPanelMain :: Boolean
+--     )
 else instance
   ExtraFieldsChild k anychild ()

@@ -9,6 +9,7 @@ import Went.GraphObject (GraphObjectSpecificFields)
 import Went.GraphObject.EnumValue.Adjusting (Adjusting)
 import Went.GraphObject.EnumValue.Curve (Curve)
 import Went.GraphObject.EnumValue.Routing (Routing)
+import Went.GraphObject.EnumValue.SegmentOrientation (SegmentOrientation)
 import Went.GraphObject.Panel (PanelSpecificFields)
 import Went.GraphObject.Panel.Part (PartSpecificFields)
 
@@ -64,6 +65,11 @@ type LinkSpecificFields =
   , relinkableTo :: Boolean
   , resegmentable :: Boolean
   , routing :: Routing
+  , segmentFraction :: Number
+  , segmentIndex :: Int
+  , segmentOffset :: Point
+  , segmentOrientation :: SegmentOrientation
+  , isPanelMain :: Boolean
   , smoothness :: Number
   , toPortChanged :: Link_ -> GraphObject_ -> GraphObject_ -> Effect Unit
   , toPortId :: String
