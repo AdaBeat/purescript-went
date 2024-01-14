@@ -2,6 +2,7 @@ module Went.Diagram.Animation.AnimationTrigger where
 
 import Prelude
 
+import Data.Function.Uncurried (Fn4)
 import Data.Symbol (class IsSymbol)
 import Effect (Effect)
 import GoJS.Diagram (Animation_)
@@ -28,7 +29,7 @@ type AnimatableGraphObjectFields =
   , stroke :: String
   ) -- (on Shapes, TextBlocks)
 
-type EasingFn = Number -> Number -> Number -> Number -> Effect Number
+type EasingFn = Fn4 Number Number Number Number Number
 type FinishedFn = Animation_ -> Effect Unit
 type AnimationSettings =
   ( duration :: Number

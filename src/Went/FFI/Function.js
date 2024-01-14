@@ -1,6 +1,18 @@
+export const call4 = (curried) => {
+    return function (a, b, c, d) {
+        return curried(a)(b)(c)(d)()
+    }
+}
+
+export const call3 = (curried) => {
+    return function (a, b, c) {
+        return curried(a)(b)(c)()
+    }
+}
+
 export const call2 = (curried) => {
-    return function (e, port) {
-        return curried(e)(port)()
+    return function (a, b) {
+        return curried(a)(b)()
     }
 }
 

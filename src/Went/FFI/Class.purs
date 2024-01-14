@@ -2,12 +2,13 @@ module Went.FFI.Class where
 
 import Prelude
 
-import Data.Function.Uncurried (Fn0, Fn1, Fn2, Fn3, mkFn1, mkFn2, mkFn3)
+import Data.Function.Uncurried (Fn0, Fn1, Fn2, Fn3, Fn4, mkFn1, mkFn2, mkFn3)
 import Data.Int (toNumber)
 import Data.Maybe (Maybe)
 import Data.Newtype (unwrap)
 import Data.Nullable (Nullable, toNullable)
 import Effect (Effect)
+import GoJS.Debug (trace)
 import GoJS.EnumValue (EnumValue_)
 import GoJS.Geometry.Constructors (newGeometry)
 import GoJS.Geometry.Margin.Constructors (newMargin)
@@ -22,7 +23,7 @@ import GoJS.Key (Key(..), KeyProperty(..))
 import Heterogeneous.Mapping (class HMap, class Mapping, hmap)
 import Unsafe.Coerce (unsafeCoerce)
 import Went.EnumValue (class EnumValueFFI, enumValue)
-import Went.FFI.Function (call0, call1, call2)
+import Went.FFI.Function (call0, call1, call2, call3, call4)
 import Went.FFI.Override (Override(..), override0, override1, override2)
 import Went.Geometry.Geometry (Geometry(..))
 import Went.Geometry.Margin (Margin(..))
@@ -106,6 +107,12 @@ else instance FFIMap Geometry Geometry_ where
   ffi (Geometry { figures, spot1, spot2 }) = newGeometry (ffi <$> figures) (ffi spot1) (ffi spot2)
 
 -- Curried effectful functions become JavaScript uncurried functions; TODO: Turn into mkEffect calls
+else instance FFIMap (a -> b -> c -> d -> Effect e) (Fn4 a b c d e) where
+  ffi = call4
+
+else instance FFIMap (a -> b -> c -> Effect d) (Fn3 a b c d) where
+  ffi = call3
+
 else instance FFIMap (a -> b -> Effect c) (Fn2 a b c) where
   ffi = call2
 
@@ -141,6 +148,16 @@ else instance FFIMap String String where
 else instance FFIMap Boolean Boolean where
   ffi = identity
 else instance FFIMap Number Number where
+  ffi = identity
+else instance FFIMap (Fn4 a b c d e) (Fn4 a b c d e) where
+  ffi = identity
+else instance FFIMap (Fn3 a b c d) (Fn3 a b c d) where
+  ffi = identity
+else instance FFIMap (Fn2 a b c) (Fn2 a b c) where
+  ffi = identity
+else instance FFIMap (Fn1 a b) (Fn1 a b) where
+  ffi = identity
+else instance FFIMap (Fn0 a) (Fn0 a) where
   ffi = identity
 
 -- Newtypes over numbers need to be matched individually
