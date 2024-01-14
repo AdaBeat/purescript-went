@@ -17,3 +17,6 @@ workspace:
     censor_library_warnings: all
   package_set:
     registry: 47.13.0
+  extra_packages:
+    gojs:
+      path: ../purescript-gojs

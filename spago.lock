@@ -481,7 +481,9 @@ workspace:
       yoga-tree: 1.0.0
       z3: 0.0.2
       zipperarray: 2.0.0
-  extra_packages: {}
+  extra_packages:
+    gojs:
+      path: ../purescript-gojs
 packages:
   arrays:
     needed_by:
@@ -747,9 +749,8 @@ packages:
     needed_by:
       - went
     package:
-      type: registry
-      version: 0.1.0
-      integrity: sha256-kFv9O6veWwy6c9DiiYUFWVNYWZ/ujhSoc3gaf5/H+LU=
+      type: local
+      path: ../purescript-gojs
       dependencies:
         - effect
         - foldable-traversable

@@ -48,7 +48,7 @@ binding
   => IsSymbol srcProp
   => Cons tgtProp tgtType rto bindableTo
   => Cons srcProp srcType rs bindableFrom
-  => FFIMap tgtType tgtTypeFFI
+  => FFIMap tgtType tgtTypeFFI -- TODO: Wtf?
   => FFIMap srcType srcTypeFFI
   => Bindable m bindableFrom bindableTo
   => Maybe (srcTypeFFI -> tgtTypeFFI)

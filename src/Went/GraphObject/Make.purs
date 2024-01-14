@@ -3,11 +3,12 @@ module Went.GraphObject.Make where
 import Prelude
 
 import Control.Monad.Reader (ReaderT, ask, runReaderT)
-import Data.Symbol (class IsSymbol)
+import Data.Symbol (class IsSymbol, reflectSymbol)
 import Effect (Effect)
 import Effect.Class (liftEffect)
+import GoJS.Diagram.AnimationTrigger.Constructors (newAnimationTrigger'')
 import GoJS.GraphObject.Constructors (newButton, newContextMenu, newGroup, newLink, newNode, newPanel, newPart, newPicture, newPlaceholder, newShape, newTextBlock, newToolTip)
-import GoJS.GraphObject.Methods (bind_)
+import GoJS.GraphObject.Methods (bind_, trigger_)
 import GoJS.GraphObject.Panel.Methods (add_)
 import GoJS.GraphObject.Types (class IsGraphObject, class IsPanel, Adornment_, Button_, Group_, Link_, Node_, Panel_, Part_, Picture_, Placeholder_, Shape_, TextBlock_)
 import GoJS.Unsafe.Set (setUnsafe)
@@ -15,6 +16,8 @@ import Prim.Row (class Cons, class Union)
 import Record (insert)
 import Type.Data.List (type (:>), List', Nil')
 import Type.Prelude (Proxy(..))
+import Went.Diagram.Animation.AnimationTrigger (class AnimationTriggerable)
+import Went.FFI.Class (ffi)
 import Went.GraphObject.Fields (class GraphObjectChildFields, class GraphObjectFields)
 import Went.GraphObject.Panel (class AsString, Auto', ButtonTypeTag(..), Link', PanelType, PanelTypeTag(..), Vertical', asString, unPanelTypeTag)
 import Went.GraphObject.Shape.Figure (Figure)
@@ -79,6 +82,12 @@ shape shapeType = maker (newShape $ show shapeType)
 instance (GraphObjectFields grObj settable) => Bindable (MakeGraphObject bindable grObj hierarchy) bindable settable where
   binding' ptgt prsc go back = MakeGraphObject $ bindingImp bind_ ptgt prsc go back
   bindingOfObject' ptgt src go back = MakeGraphObject $ bindingOfObjectImp bind_ ptgt src go back
+
+instance (IsGraphObject grObj) => AnimationTriggerable (MakeGraphObject bindable grObj hierarchy) where
+  animationTrigger' p r startCondition = MakeGraphObject $ do
+    grObj <- ask
+    animTrigger <- liftEffect $ newAnimationTrigger'' (reflectSymbol p) (ffi r) (ffi startCondition)
+    void $ liftEffect $ trigger_ animTrigger grObj
 
 textBlock
   :: forall bindable p b hierarchy
