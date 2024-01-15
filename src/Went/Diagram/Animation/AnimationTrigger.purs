@@ -2,12 +2,12 @@ module Went.Diagram.Animation.AnimationTrigger where
 
 import Prelude
 
-import Data.Function.Uncurried (Fn4)
 import Data.Symbol (class IsSymbol)
 import Effect (Effect)
 import GoJS.Diagram (Animation_)
 import Prim.Row (class Cons, class Union)
 import Type.Prelude (Proxy(..))
+import Went.Diagram.Animation.Easing (EasingFn)
 import Went.Diagram.Animation.EnumValue.StartCondition (StartCondition)
 import Went.FFI.Class (class FFIMap)
 import Went.Geometry.Point (Point)
@@ -26,10 +26,9 @@ type AnimatableGraphObjectFields =
   , fill :: String -- (on Shapes)
   , strokeWidth :: Number -- (on Shapes)
   , strokeDashOffset :: Number -- (on Shapes)
-  , stroke :: String
-  ) -- (on Shapes, TextBlocks)
+  , stroke :: String -- (on Shapes, TextBlocks)
+  )
 
-type EasingFn = Fn4 Number Number Number Number Number
 type FinishedFn = Animation_ -> Effect Unit
 type AnimationSettings =
   ( duration :: Number

@@ -233,6 +233,7 @@ contextMenuTool = modifyTool
 textEditingTool :: forall (m :: Type -> Type) (nodeData :: Row Type) (b :: Type). ToolM m nodeData ⇒ MakeTool TextEditingTool_ nodeData b -> m Unit
 textEditingTool = modifyTool
 
+-- Insert new tools helpers
 insertActionToolAt :: forall nodeData b m. ToolM m nodeData ⇒ MouseActionType -> Int -> MakeTool ActionTool_ nodeData b -> m Unit
 insertActionToolAt = insertToolAt @m newActionTool
 
