@@ -1,4 +1,4 @@
-module Went.GraphObject.Picture where
+module Went.GraphObject.Picture.Fields where
 
 import Prelude
 
@@ -7,7 +7,7 @@ import GoJS.GraphObject.Types (Picture_)
 import Web.Event.Internal.Types (Event)
 import Went.Geometry.Rect (Rect)
 import Went.Geometry.Spot (Spot)
-import Went.GraphObject (GraphObjectSpecificFields)
+import Went.GraphObject.Fields.Specific (GraphObjectSpecificFields)
 import Went.GraphObject.EnumValue.Flip (Flip)
 import Went.GraphObject.EnumValue.Stretch (Stretch)
 

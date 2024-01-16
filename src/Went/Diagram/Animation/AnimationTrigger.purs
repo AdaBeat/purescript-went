@@ -13,7 +13,7 @@ import Went.FFI.Class (class FFIMap)
 import Went.Geometry.Point (Point)
 import Went.Geometry.Size (Size)
 
-type AnimatableGraphObjectFields =
+type AnimatableGraphObjectAllFields =
   ( position :: Point
   , location :: Point -- (on Parts)
   , scale :: Number --
@@ -41,7 +41,7 @@ class AnimationTriggerable (m :: Type -> Type) where
   animationTrigger'
     :: forall (tgtProp :: Symbol) tgtType rto (rs :: Row Type) as asFFI ras
      . IsSymbol tgtProp
-    => Cons tgtProp tgtType rto AnimatableGraphObjectFields
+    => Cons tgtProp tgtType rto AnimatableGraphObjectAllFields
     => Union as ras AnimationSettings
     => FFIMap (Record as) (Record asFFI)
     => Proxy tgtProp
@@ -52,7 +52,7 @@ class AnimationTriggerable (m :: Type -> Type) where
 animationTrigger
   :: forall (@tgtProp :: Symbol) (tgtType :: Type) rto (rs :: Row Type) m as asFFI ras
    . IsSymbol tgtProp
-  => Cons tgtProp tgtType rto AnimatableGraphObjectFields
+  => Cons tgtProp tgtType rto AnimatableGraphObjectAllFields
   => Union as ras AnimationSettings
   => FFIMap (Record as) (Record asFFI)
   => AnimationTriggerable m

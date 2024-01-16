@@ -9,8 +9,8 @@ import GoJS.GraphObject.Types (Part_, Node_)
 import Went.Geometry.Point (Point)
 import Went.Geometry.Size (Size)
 import Went.Geometry.Spot (Spot)
-import Went.GraphObject (GraphObjectSpecificFields)
-import Went.GraphObject.Panel (PanelSpecificFields)
+import Went.GraphObject.Fields.Specific (GraphObjectSpecificFields)
+import Went.GraphObject.Panel.Fields.Specific (PanelSpecificFields)
 
 {-
 adornments - Read-only

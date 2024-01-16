@@ -4,8 +4,8 @@ import Prelude
 
 import Effect (Effect)
 import GoJS.GraphObject.Types (Group_, Part_)
-import Went.GraphObject (GraphObjectSpecificFields)
-import Went.GraphObject.Panel (PanelSpecificFields)
+import Went.GraphObject.Fields.Specific (GraphObjectSpecificFields)
+import Went.GraphObject.Panel.Fields.Specific (PanelSpecificFields)
 import Went.GraphObject.Panel.Part (PartSpecificFields)
 import Went.GraphObject.Panel.Part.Node (NodeSpecificFields)
 

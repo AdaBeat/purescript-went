@@ -5,9 +5,9 @@ import Prelude
 import Effect (Effect)
 import GoJS.GraphObject.Types (Link_, Node_, GraphObject_)
 import Went.Geometry.Margin (Margin)
-import Went.GraphObject (GraphObjectSpecificFields)
+import Went.GraphObject.Fields.Specific (GraphObjectSpecificFields)
 import Went.GraphObject.EnumValue.PortSpreading (PortSpreading)
-import Went.GraphObject.Panel (PanelSpecificFields)
+import Went.GraphObject.Panel.Fields.Specific (PanelSpecificFields)
 import Went.GraphObject.Panel.Part (PartSpecificFields)
 
 

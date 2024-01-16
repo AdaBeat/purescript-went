@@ -18,8 +18,10 @@ import Type.Data.List (type (:>), List', Nil')
 import Type.Prelude (Proxy(..))
 import Went.Diagram.Animation.AnimationTrigger (class AnimationTriggerable)
 import Went.FFI.Class (ffi)
-import Went.GraphObject.Fields (class GraphObjectChildFields, class GraphObjectFields)
-import Went.GraphObject.Panel (class AsString, Auto', ButtonTypeTag(..), Link', PanelType, PanelTypeTag(..), Vertical', asString, unPanelTypeTag)
+import Went.GraphObject.Fields.All (class GraphObjectChildFields, class GraphObjectAllFields)
+import Went.GraphObject.Panel.AsString
+import Went.GraphObject.Panel.PanelType
+import Went.GraphObject.Panel.Button.ButtonType
 import Went.GraphObject.Shape.Figure (Figure)
 import Went.Layout.Make (class LayoutM, layoutImp)
 import Went.Model.Binding (class Bindable, bindingImp, bindingOfObjectImp)
@@ -79,7 +81,7 @@ shape
   -> MakeGraphObject bindable p hierarchy Unit
 shape shapeType = maker (newShape $ show shapeType)
 
-instance (GraphObjectFields grObj settable) => Bindable (MakeGraphObject bindable grObj hierarchy) bindable settable where
+instance (GraphObjectAllFields grObj settable) => Bindable (MakeGraphObject bindable grObj hierarchy) bindable settable where
   binding' ptgt prsc go back = MakeGraphObject $ bindingImp bind_ ptgt prsc go back
   bindingOfObject' ptgt src go back = MakeGraphObject $ bindingOfObjectImp bind_ ptgt src go back
 
@@ -203,7 +205,7 @@ instance LayoutM (MakeGraphObject bindable (PanelTypeTag panelType Group_) rest)
   layout constructor = MakeGraphObject <<< layoutImp constructor
 
 instance
-  ( GraphObjectFields g settable
+  ( GraphObjectAllFields g settable
   , GraphObjectChildFields g hierarchy childSettable
   , Union settable childSettable settable'
   ) =>

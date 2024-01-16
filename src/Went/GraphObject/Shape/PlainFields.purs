@@ -3,7 +3,7 @@ module Went.GraphObject.Shape.PlainFields where
 import GoJS.GraphObject.Types (Shape_)
 import Went.Geometry.Geometry (Geometry)
 import Went.Geometry.Spot (Spot)
-import Went.GraphObject (GraphObjectSpecificFields)
+import Went.GraphObject.Fields.Specific (GraphObjectSpecificFields)
 import Went.GraphObject.EnumValue.GeometryStretch (GeometryStretch)
 import Went.GraphObject.Shape.Figure (Figure)
 import Went.GraphObject.Shape.StrokeCap (StrokeCap)
